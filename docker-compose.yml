@@ -1,0 +1,86 @@
+version: '3.8'
+
+services:
+  # MySQL 数据库
+  mysql:
+    image: mysql:8.0
+    platform: linux/arm64
+    container_name: secondhand-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root123456
+      MYSQL_DATABASE: secondhand_market
+      TZ: Asia/Shanghai
+      LANG: C.UTF-8
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./backend/src/main/resources/schema.sql:/docker-entrypoint-initdb.d/init.sql
+    command: 
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --init-connect=SET NAMES utf8mb4
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # 后端服务
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: secondhand-backend
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      TZ: Asia/Shanghai
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: secondhand_market
+      MYSQL_USERNAME: root
+      MYSQL_PASSWORD: root123456
+      WEBASE_FRONT_URL: http://host.docker.internal:5002
+      WEBASE_GROUP_ID: 1
+      WEBASE_USER_ADDRESS: "0x..."
+      WEBASE_CONTRACT_ADDRESS: "0x..."
+    volumes:
+      - upload_data:/app/uploads
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  # 用户端前端
+  frontend-user:
+    build:
+      context: ./frontend-user
+      dockerfile: Dockerfile
+    container_name: secondhand-frontend-user
+    restart: unless-stopped
+    ports:
+      - "8081:80"
+    environment:
+      TZ: Asia/Shanghai
+    depends_on:
+      - backend
+
+  # 管理后台前端
+  frontend-admin:
+    build:
+      context: ./frontend-admin
+      dockerfile: Dockerfile
+    container_name: secondhand-frontend-admin
+    restart: unless-stopped
+    ports:
+      - "8082:80"
+    environment:
+      TZ: Asia/Shanghai
+    depends_on:
+      - backend
+
+volumes:
+  mysql_data:
+  upload_data:

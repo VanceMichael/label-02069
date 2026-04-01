@@ -1,0 +1,60 @@
+server:
+  port: 8080
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 20MB
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DATABASE:secondhand_market}?useUnicode=true&characterEncoding=UTF-8&character_set_server=utf8mb4&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD:root123456}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Shanghai
+    default-property-inclusion: non_null
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml
+  type-aliases-package: com.secondhand.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+# JWT 配置
+jwt:
+  secret: blockchain-secondhand-market-jwt-secret-key-2024
+  expiration: 86400000
+
+# WeBase 配置
+webase:
+  front-url: ${WEBASE_FRONT_URL:http://localhost:5002}
+  group-id: ${WEBASE_GROUP_ID:1}
+  user-address: ${WEBASE_USER_ADDRESS:0x...}
+  contract-address: ${WEBASE_CONTRACT_ADDRESS:0x...}
+  contract-name: SecondHandMarket
+  abi-path: contracts/abi.json
+
+# 日志配置
+logging:
+  level:
+    com.secondhand: debug
+    org.springframework.web: info
+
+# 文件上传配置
+upload:
+  path: ${UPLOAD_PATH:/app/uploads}
+  url-prefix: /api/uploads/

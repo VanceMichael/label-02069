@@ -1,0 +1,177 @@
+// ========== 色彩系统 ==========
+$primary: #0A2E36;
+$primary-light: #134E5E;
+$accent: #C9A96E;
+$accent-dark: #B8944F;
+
+$success: #10B981;
+$warning: #F59E0B;
+$danger: #EF4444;
+$info: #6B7280;
+
+$blockchain-start: #6366F1;
+$blockchain-end: #8B5CF6;
+
+$bg: #F5F5F4;
+$bg-warm: #F8F7F5;
+$sidebar-bg: #0A2E36;
+$card-bg: #FFFFFF;
+
+$text-primary: #1A1A1A;
+$text-regular: #4A4A4A;
+$text-secondary: #9CA3AF;
+
+$border: #E5E5E5;
+$border-light: #F0F0F0;
+
+$radius: 10px;
+$radius-lg: 16px;
+$radius-pill: 9999px;
+
+$shadow: 0 1px 3px rgba(0,0,0,0.04), 0 6px 16px rgba(0,0,0,0.04);
+
+// ========== 全局重置 ==========
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  font-family: "DM Sans", "Noto Sans SC", "PingFang SC", -apple-system, sans-serif;
+  font-size: 14px; color: $text-primary; background: $bg;
+  -webkit-font-smoothing: antialiased;
+}
+
+#app { height: 100%; }
+
+// ========== Element Plus 覆盖 ==========
+.el-button {
+  border-radius: $radius !important; font-weight: 500 !important; transition: all 0.25s ease !important;
+  &--primary { background: $accent !important; border-color: $accent !important; color: #fff !important;
+    &:hover, &:focus { background: $accent-dark !important; border-color: $accent-dark !important; transform: translateY(-1px); box-shadow: 0 4px 12px rgba($accent, 0.35); }
+  }
+  &--success { background: $success !important; border-color: $success !important; }
+  &--warning { background: $warning !important; border-color: $warning !important; }
+  &--danger { background: $danger !important; border-color: $danger !important; }
+  &--default { border-color: $border !important; &:hover { border-color: $primary !important; color: $primary !important; } }
+}
+
+.el-input__wrapper {
+  border-radius: $radius !important;
+  box-shadow: 0 0 0 1px $border inset !important;
+  &:hover { box-shadow: 0 0 0 1px darken($border, 10%) inset !important; }
+  &.is-focus { box-shadow: 0 0 0 1.5px $primary inset !important; }
+}
+
+.el-textarea__inner { border-radius: $radius !important; }
+.el-select .el-input__wrapper { border-radius: $radius !important; }
+
+.el-table {
+  --el-table-border-color: #{$border-light};
+  --el-table-header-bg-color: #{$bg-warm};
+  --el-table-row-hover-bg-color: #{$bg-warm};
+  border-radius: $radius !important; overflow: hidden;
+  th.el-table__cell { font-weight: 600 !important; color: $text-primary !important; }
+}
+
+.el-tag {
+  border-radius: $radius-pill !important; border: none !important; font-weight: 500;
+  &--primary { background: rgba($primary, 0.08) !important; color: $primary !important; }
+  &--success { background: rgba($success, 0.08) !important; color: $success !important; }
+  &--warning { background: rgba($warning, 0.08) !important; color: $warning !important; }
+  &--danger { background: rgba($danger, 0.08) !important; color: $danger !important; }
+  &--info { background: rgba($info, 0.08) !important; color: $info !important; }
+}
+
+.el-dialog {
+  border-radius: $radius-lg !important; padding: 28px !important;
+  .el-dialog__header { padding: 0 0 20px !important; border-bottom: none !important; }
+  .el-dialog__title { font-size: 18px; font-weight: 600; }
+  .el-dialog__body { padding: 0 !important; }
+  .el-dialog__footer { padding: 20px 0 0 !important; }
+}
+
+.el-pagination {
+  .el-pager li, .btn-prev, .btn-next { border-radius: 8px !important; &.is-active { background: $primary !important; } }
+}
+
+.el-message-box { border-radius: $radius-lg !important; }
+.el-dropdown-menu { border-radius: $radius !important; }
+.el-form-item__label { font-weight: 500 !important; color: $text-primary !important; }
+
+.el-radio-button__inner { border-radius: $radius !important; }
+.el-radio-button:first-child .el-radio-button__inner { border-radius: $radius 0 0 $radius !important; }
+.el-radio-button:last-child .el-radio-button__inner { border-radius: 0 $radius $radius 0 !important; }
+.el-radio-button__original-radio:checked + .el-radio-button__inner { background: $primary !important; border-color: $primary !important; }
+
+// ========== 通用布局 ==========
+.page-container { padding: 24px; }
+
+.page-header {
+  display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
+  h1 { font-size: 20px; font-weight: 600; color: $primary; }
+}
+
+.search-form {
+  background: white; padding: 20px; border-radius: $radius-lg; margin-bottom: 20px; box-shadow: $shadow;
+}
+
+.table-container {
+  background: white; padding: 20px; border-radius: $radius-lg; box-shadow: $shadow;
+}
+
+.pagination { margin-top: 20px; display: flex; justify-content: flex-end; }
+
+// ========== 表格操作按钮 ==========
+.action-group { display: flex; gap: 6px; align-items: center; min-height: 32px; }
+
+.action-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 4px;
+  padding: 0 14px; height: 30px; line-height: 30px; border-radius: 8px;
+  font-size: 13px; font-weight: 600; cursor: pointer;
+  border: 1px solid transparent; transition: all 0.2s;
+  font-family: inherit; background: none; white-space: nowrap;
+
+  &.success {
+    color: $success; background: rgba($success, 0.08); border-color: rgba($success, 0.15);
+    &:hover { background: $success; color: #fff; border-color: $success; }
+  }
+  &.warning {
+    color: $warning; background: rgba($warning, 0.08); border-color: rgba($warning, 0.15);
+    &:hover { background: $warning; color: #fff; border-color: $warning; }
+  }
+  &.danger {
+    color: $danger; background: rgba($danger, 0.08); border-color: rgba($danger, 0.15);
+    &:hover { background: $danger; color: #fff; border-color: $danger; }
+  }
+  &.primary {
+    color: $primary; background: rgba($primary, 0.06); border-color: rgba($primary, 0.12);
+    &:hover { background: $primary; color: #fff; border-color: $primary; }
+  }
+}
+
+.card-base { background: $card-bg; border-radius: $radius-lg; box-shadow: $shadow; }
+
+.stat-card {
+  background: white; padding: 24px; border-radius: $radius-lg; display: flex; align-items: center; gap: 16px; box-shadow: $shadow;
+  .stat-icon {
+    width: 52px; height: 52px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    .el-icon { font-size: 26px; color: white; }
+  }
+  .stat-info {
+    .label { display: block; font-size: 13px; color: $text-secondary; margin-bottom: 4px; }
+    .value { font-family: "DM Sans"; font-size: 28px; font-weight: 700; color: $text-primary; }
+  }
+}
+
+.blockchain-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 10px; background: linear-gradient(135deg, $blockchain-start, $blockchain-end);
+  color: white; border-radius: $radius-pill; font-size: 11px; font-weight: 600;
+}
+
+// ========== 滚动条 ==========
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-thumb { background: #D1D5DB; border-radius: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
